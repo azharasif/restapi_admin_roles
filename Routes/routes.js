@@ -26,13 +26,12 @@ Router.post('/login' , [
 ]);
 Router.get('/users' , [
     ValidationMiddleware.validJWTNeeded,
-    PermissionMiddleware.minimumPermissionLevelRequired(PAID),
+    PermissionMiddleware.minimumPermissionLevelRequired(ADMIN),
     User_actions.list
 ])
 
 Router.get('/users/:userId' , [
 ValidationMiddleware.validJWTNeeded,
-PermissionMiddleware.minimumPermissionLevelRequired(FREE),
 PermissionMiddleware.onlySameUserOrAdminCanDoThisAction,
 User_actions.getbyid
 ] )
@@ -40,9 +39,16 @@ User_actions.getbyid
 Router.delete('/users/:userId' , [
 
     ValidationMiddleware.validJWTNeeded,
-    PermissionMiddleware.minimumPermissionLevelRequired(ADMIN)
+    PermissionMiddleware.minimumPermissionLevelRequired(ADMIN),
+    User_actions.RemovebyId
+  
 ] )
 
+Router.patch('/users/:userId', [
+    ValidationMiddleware.validJWTNeeded,
+    PermissionMiddleware.onlySameUserOrAdminCanDoThisAction,
+    User_actions.patchById
+]);
 
 
 module.exports = Router 
