@@ -28,46 +28,52 @@ exports.RemovebyId = (req, res) => {
     })
 }
 
-// exports.updatebyid = (req, res)=>{ 
+exports.patchById = (req, res)=>{ 
 
-// Usermodel.findByIdAndUpdate(req.body , function (err, user){
+Usermodel.findByIdAndUpdate(req.params.userId , {firstName:req.body.firstName , lastName:req.body.lastName}).exec(function(err , data){
 
-
-//     console.log(user);
-
-//     if (err) reject(err);
-// }
-
-
-
-// )}
-
-
-
-
-
-exports.patchById = (req, res) => {
-  
-    UserModel.patchUser(req.params.userId, req.body)
-        .then((result) => {
-            res.status(204).send({});
-        });
-
-};
-
-exports.patchUser = (id, userData) => {
-    return new Promise((resolve, reject) => {
-        UserModel.findById(id, function (err, user) {
-            
-            if (err) reject(err);
-            for (let i in userData) {
-                user[i] = userData[i];
+    if(data){
+        res.status(201).json({data:"record updated sucessfully"})
+    }
+    else {
+    
+        res.status(501).json({message:"error in updating record"})
+        
             }
-            user.save(function (err, updatedUser) {
-                if (err) return reject(err);
-                resolve(updatedUser);
-            });
-        });
-    })
+})
 
-};
+
+
+}
+
+
+
+
+
+// exports.patchById = (req, res) => {
+
+//      console.log(req.body.firstName);
+//     UserModel.patchUser(req.params.userId, req.body)
+//         .then((result) => {
+//             res.status(204).send({});
+//         });
+
+// };
+
+// exports.patchUser = (id, userData) => {
+//     console.log(id)
+//     return new Promise((resolve, reject) => {
+//         UserModel.findById(id, function (err, user) {
+            
+//             if (err) reject(err);
+//             for (let i in userData) {
+//                 user[i] = userData[i];
+//             }
+//             user.save(function (err, updatedUser) {
+//                 if (err) return reject(err);
+//                 resolve(updatedUser);
+//             });
+//         });
+//     })
+
+// };
