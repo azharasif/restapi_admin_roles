@@ -33,12 +33,13 @@ exports.patchById = (req, res)=>{
 Usermodel.findByIdAndUpdate(req.params.userId , {firstName:req.body.firstName , lastName:req.body.lastName}).exec(function(err , data){
 
     if(data){
-        res.status(201).json({data:"record updated sucessfully"})
+        res.status(201).json({data:"record updated sucessfully !"})
     }
     else {
     
         res.status(501).json({message:"error in updating record"})
         
+
             }
 })
 
