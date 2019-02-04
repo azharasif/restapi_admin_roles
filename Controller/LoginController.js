@@ -10,19 +10,15 @@ const refreshtokenSecret = require("../Common/config/env.config").refreshTokenSe
 
 exports.login = (req, res)=> {
      
-
-
     try {
         
-      
         let refreshId = req.body.userId + jwtSecret;
    
         let token = jwt.sign(req.body, jwtSecret);
    
-        
-   
-        res.status(201).send({accessToken: token});
-    
+        let refresh_token =  jwt.sign(req.body  , refreshtokenSecret)
+
+        res.status(201).send({accessToken: token , refresh_tokken:refresh_token});
     } catch (err) {
          res.status(500).send({errors: err});
     }
@@ -30,12 +26,12 @@ exports.login = (req, res)=> {
 
 
 
-// exports.refresh_token = (req, res) => {
-//     try {
-//         req.body = req.jwt;
-//         let token = jwt.sign(req.body, refreshtokenSecret);
-//         res.status(201).send({id: token});
-//     } catch (err) {
-//         res.status(500).send({errors: err});
-//     }
-// };
+exports.refresh_token = (req, res) => {
+    try {
+        req.body = req.jwt;
+        let token = jwt.sign(req.body, refreshtokenSecret);
+        res.status(201).send({id: token});
+    } catch (err) {
+        res.status(500).send({errors: err});
+    }
+};

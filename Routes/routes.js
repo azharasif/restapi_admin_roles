@@ -51,4 +51,11 @@ Router.patch('/users/:userId', [
 ]);
 
 
+Router.post('/login/refresh', [
+    ValidationMiddleware.validJWTNeeded,
+    ValidationMiddleware.verifyRefreshBodyField,
+    ValidationMiddleware.validRefreshNeeded,
+    verifylogin.login
+])
+
 module.exports = Router 
