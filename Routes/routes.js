@@ -15,7 +15,10 @@ const PermissionMiddleware = require('../Common/permission_middleware/auth.permi
 const ValidationMiddleware = require('../Common/permission_middleware/auth.validation.middleware')
 
 const User_actions = require('../Controller/User_actions_controller')
-Router.post('/register'  , require('../Controller/RegisterController').post);
+Router.post('/register' ,[
+    ValidationMiddleware.validJWTNeeded,
+    PermissionMiddleware.minimumPermissionLevelRequired(ADMIN),
+] , require('../Controller/RegisterController').post);
 
 
 
